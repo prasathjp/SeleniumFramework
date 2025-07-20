@@ -5,13 +5,10 @@ namespace NUnitFrameworkDemo.TestSuites
 {
     public class LoginTest : Wrapper
     {
-        private LoginTest objTestClass = null;
-
         [Test]
         public void ValidLoginCheck()
         {
-            objTestClass = new LoginTest();
-            objTestClass.LoginDetails("Admin", "admin123", chromeDriver);
+            LoginDetails("Admin", "admin123", chromeDriver);
 
             //Dashboard Header
             IWebElement hdDash = chromeDriver.FindElement(By.TagName("h6"));
@@ -24,47 +21,44 @@ namespace NUnitFrameworkDemo.TestSuites
         [Test]
         public void InvalidLoginCheck()
         {
-            objTestClass = new LoginTest();
-            objTestClass.LoginDetails("John", "john123", chromeDriver);
+            LoginDetails("John", "john123", chromeDriver);
 
             //Invalid Credentials Paratag
             IWebElement pInvalidCred = chromeDriver.FindElement(By.XPath("//p[contains(normalize-space(),'Invalid')]"));
             string actTxt = pInvalidCred.Text;
             string expTxt = "Invalid credentials";
 
-            Assert.That(actTxt.Contains(expTxt), "Assert failed for invalid credentials");
+            Assert.That(actTxt, Does.Contain(expTxt), "Assert failed for invalid credentials");
         }
 
         [TestCase("abcd", "abcd123")]
         [TestCase("wxyz", "wxyz123")]
         public void InvalidLoginChecks(string uName, string pWord)
         {
-            objTestClass = new LoginTest();
-            objTestClass.LoginDetails(uName, pWord, chromeDriver);
+            LoginDetails(uName, pWord, chromeDriver);
 
             //Invalid Credentials Paratag
             IWebElement pInvalidCred = chromeDriver.FindElement(By.XPath("//p[contains(normalize-space(),'Invalid')]"));
             string actTxt = pInvalidCred.Text;
             string expTxt = "Invalid credentials";
 
-            Assert.That(actTxt.Contains(expTxt), "Assert failed for invalid credentials");
+            Assert.That(actTxt, Does.Contain(expTxt), "Assert failed for invalid credentials");
         }
 
         [TestCaseSource(typeof(LoginTest), nameof(loginDataSource))]
         public void InvalidLoginCheckSource(string uName, string pWord)
         {
-            objTestClass = new LoginTest();
-            objTestClass.LoginDetails(uName, pWord, chromeDriver);
+            LoginDetails(uName, pWord, chromeDriver);
 
             //Invalid Credentials Paratag
             IWebElement pInvalidCred = chromeDriver.FindElement(By.XPath("//p[contains(normalize-space(),'Invalid')]"));
             string actTxt = pInvalidCred.Text;
             string expTxt = "Invalid credentials";
 
-            Assert.That(actTxt.Contains(expTxt), "Assert failed for invalid credentials");
+            Assert.That(actTxt, Does.Contain(expTxt), "Assert failed for invalid credentials");
         }
 
-        public void LoginDetails(string uName, string pWord, IWebDriver chromeDriver)
+        internal static void LoginDetails(string uName, string pWord, IWebDriver chromeDriver)
         {
             //Username Textbox
             IWebElement txtUsername = chromeDriver.FindElement(By.Name("username"));

@@ -1,6 +1,5 @@
 ﻿using NUnitFrameworkDemo.Base;
 using OpenQA.Selenium;
-using OpenQA.Selenium.Support.Extensions;
 using OpenQA.Selenium.Support.UI;
 
 namespace NUnitFrameworkDemo.TestSuites
@@ -10,8 +9,7 @@ namespace NUnitFrameworkDemo.TestSuites
         [Test]
         public void AddEmpCheck()
         {
-            LoginTest objTestClass = new LoginTest();
-            objTestClass.LoginDetails("Admin", "admin123", chromeDriver);
+            LoginTest.LoginDetails("Admin", "admin123", chromeDriver);
 
             //Dashboard Header
             IWebElement hdDash = chromeDriver.FindElement(By.TagName("h6"));
@@ -55,14 +53,14 @@ namespace NUnitFrameworkDemo.TestSuites
             //FirstName Textbox
             IWebElement txtFirstName = fluentWait.Until(dom => dom.FindElement(By.XPath("//input[@name='firstName']")));
             string strFname = txtFirstName.GetAttribute("value");
-            Assert.That(strFname.Contains(strEmpFirstName), "Assert failed for Firstname textbox");
+            Assert.That(strFname, Does.Contain(strEmpFirstName), "Assert failed for Firstname textbox");
 
             //Emp Name Header
             bool isHeaderLoad = fluentWait.Until(dom => dom.FindElement(By.XPath("//div[@class='orangehrm-edit-employee-name']//h6")).GetAttribute("innerText") != string.Empty);
             IWebElement headEmpName = fluentWait.Until(dom => dom.FindElement(By.XPath("//div[@class='orangehrm-edit-employee-name']//h6")));
             string actFullName = headEmpName.GetAttribute("innerText");
             string expFullName = strEmpFirstName + " " + strEmpLastName;
-            Assert.That(actFullName.Equals(expFullName), "Assert failed for Emp Firstname and Lastname");
+            Assert.That(actFullName, Is.EqualTo(expFullName), "Assert failed for Emp Firstname and Lastname");
         }
     }
 }
