@@ -160,3 +160,4 @@ D:\VS Projects\SeleniumFramework\NUnitFrameworkDemo\obj\Debug\net8.0\refint\NUni
 D:\VS Projects\SeleniumFramework\NUnitFrameworkDemo\obj\Debug\net8.0\NUnitFrameworkDemo.pdb
 D:\VS Projects\SeleniumFramework\NUnitFrameworkDemo\obj\Debug\net8.0\NUnitFrameworkDemo.genruntimeconfig.cache
 D:\VS Projects\SeleniumFramework\NUnitFrameworkDemo\obj\Debug\net8.0\ref\NUnitFrameworkDemo.dll
+D:\VS Projects\SeleniumFramework\NUnitFrameworkDemo\obj\Debug\net8.0\NUnitFrameworkDemo.sourcelink.json
