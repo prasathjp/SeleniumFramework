@@ -61,6 +61,14 @@ namespace NUnitFrameworkDemo.TestSuites
             string actFullName = headEmpName.GetAttribute("innerText");
             string expFullName = strEmpFirstName + " " + strEmpLastName;
             Assert.That(actFullName, Is.EqualTo(expFullName), "Assert failed for Emp Firstname and Lastname");
+
+            Assert.Multiple(() =>
+            {
+                Assert.That(actTxt, Is.EqualTo(expTxt));
+                Assert.That(strFname, Does.Contain(strEmpFirstName), "Assert failed for Firstname textbox");
+                Assert.That(actFullName, Is.EqualTo(expFullName), "Assert failed for Emp Firstname and Lastname");
+            }
+            );
         }
     }
 }

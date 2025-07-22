@@ -1,4 +1,7 @@
-﻿using NUnitFrameworkDemo.Base;
+﻿using DocumentFormat.OpenXml.Bibliography;
+using NUnitFrameworkDemo.Base;
+using NUnitFrameworkDemo.Pages;
+using NUnitFrameworkDemo.Utilities;
 using OpenQA.Selenium;
 
 namespace NUnitFrameworkDemo.TestSuites
@@ -45,7 +48,7 @@ namespace NUnitFrameworkDemo.TestSuites
             Assert.That(actTxt, Does.Contain(expTxt), "Assert failed for invalid credentials");
         }
 
-        [TestCaseSource(typeof(LoginTest), nameof(loginDataSource))]
+        [TestCaseSource(typeof(DataSource), nameof(Utilities.DataSource.LoginDataSource))]
         public void InvalidLoginCheckSource(string uName, string pWord)
         {
             LoginDetails(uName, pWord, chromeDriver);
@@ -58,30 +61,24 @@ namespace NUnitFrameworkDemo.TestSuites
             Assert.That(actTxt, Does.Contain(expTxt), "Assert failed for invalid credentials");
         }
 
-        internal static void LoginDetails(string uName, string pWord, IWebDriver chromeDriver)
+        [TestCaseSource(typeof(DataSource), nameof(Utilities.DataSource.LoginDataSourceFromExcel))]
+        public void InvalidLoginCheckSourceFromExcel(string uName, string pWord, string expTxt)
         {
-            //Username Textbox
-            IWebElement txtUsername = chromeDriver.FindElement(By.Name("username"));
-            txtUsername.SendKeys(uName);
+            LoginDetails(uName, pWord, chromeDriver);
 
-            //Password Textbox
-            IWebElement txtPassword = chromeDriver.FindElement(By.Name("password"));
-            txtPassword.SendKeys(pWord);
+            //Invalid Credentials Paratag
+            IWebElement pInvalidCred = chromeDriver.FindElement(By.XPath("//p[contains(normalize-space(),'Invalid')]"));
+            string actTxt = pInvalidCred.Text;
 
-            //Login Button
-            IWebElement btnLogin = chromeDriver.FindElement(By.XPath("//button[@type='submit']"));
-            btnLogin.Click();
+            Assert.That(actTxt, Does.Contain(expTxt), "Assert failed for invalid credentials");
         }
 
-        public static object[] loginDataSource()
+        internal static void LoginDetails(string uName, string pWord, IWebDriver chromeDriver)
         {
-            string[] strArrLogin1 = new string[] { "aaaa", "aaaa123" };
-            string[] strArrLogin2 = new string[] { "bbbb", "bbbb123" };
-
-            object[] objCred = new object[2];
-            objCred[0] = strArrLogin1;
-            objCred[1] = strArrLogin2;
-            return objCred;
+            LoginPage loginPage = new LoginPage(chromeDriver);
+            loginPage.EnterUsername("Admin");
+            loginPage.EnterPassword("admin123");
+            loginPage.ClickLogin();
         }
     }
 }
